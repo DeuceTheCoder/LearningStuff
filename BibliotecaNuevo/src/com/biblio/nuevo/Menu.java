@@ -26,9 +26,9 @@ public class Menu {
         if (i == -1)
             return "quit";
         else if (i<-1)
-            return null;
+            return "invalid";
         else if(i>=options.size())
-            return null;
+            return "invalid";
         else
             return options.get(i);
     }

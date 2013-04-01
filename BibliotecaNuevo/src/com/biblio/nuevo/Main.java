@@ -1,5 +1,8 @@
 package com.biblio.nuevo;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class Main {
 
     public Main() {

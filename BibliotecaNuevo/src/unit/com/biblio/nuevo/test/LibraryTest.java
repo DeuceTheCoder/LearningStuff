@@ -23,7 +23,7 @@ public class LibraryTest {
 
     @Test
     public void shouldDisplayWelcomeMessageWhenRun() throws IOException {
-        when(mockConsole.read()).thenReturn("");
+        when(mockConsole.read()).thenReturn("-1");
 
         library.run();
 
@@ -31,8 +31,17 @@ public class LibraryTest {
     }
 
     @Test
+    public void shouldPromptUserForInput() throws IOException {
+    	when(mockConsole.read()).thenReturn("0")
+    			.thenReturn("0")
+				.thenReturn("-1");
+    	library.run();
+    	verify(mockConsole, times(3)).print("Please enter a command number: ");
+    }
+    
+    @Test
     public void shouldReadInputFromLibraryConsole() throws IOException {
-        when(mockConsole.read()).thenReturn("");
+        when(mockConsole.read()).thenReturn("-1");
 
         library.run();
 
@@ -44,14 +53,13 @@ public class LibraryTest {
         when(mockConsole.read()).thenReturn("-1");
 
         library.run();
-        verify(mockConsole, atMost(2)).print(anyString());
+        verify(mockConsole, atMost(3)).print(anyString());
         verify(mockConsole).print("Goodbye");
     }
 
     @Test
     public void shouldPrintListOfAllBooksWhenOptionIsSelected() throws IOException {
         when(mockConsole.read()).thenReturn("0")
-                .thenReturn("")
                 .thenReturn("-1");
         Book book1 = new Book("Effective Java");
         Book book2 = new Book("War");
@@ -61,5 +69,26 @@ public class LibraryTest {
         library.run();
 
         verify(mockConsole).print(book1.getTitle() + "\n" + book2.getTitle() + "\n");
+    }
+    
+    @Test
+	public void shouldPrintErrorMessageWhenNonNumberIsRead() throws IOException {
+		when(mockConsole.read()).thenReturn("lol")
+				.thenReturn("five")
+				.thenReturn("-1");
+		
+		library.run();
+		
+		verify(mockConsole, times(2)).print("This is not a valid selection. Please input a number");
+	}
+
+	@Test
+    public void shouldPrintErrorMessageWhenInvalidNumberIsInput() throws IOException {
+    	when(mockConsole.read()).thenReturn("15")
+				.thenReturn("-1");
+    	
+    	library.run();
+    	
+    	verify(mockConsole).print("Invalid option selected.  Please select a valid option.");
     }
 }

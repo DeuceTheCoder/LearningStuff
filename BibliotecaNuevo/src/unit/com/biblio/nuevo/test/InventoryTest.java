@@ -40,4 +40,17 @@ public class InventoryTest {
         assertThat(list, containsString("Effective Java\n"));
         assertThat(list, containsString("War and Peace\n"));
     }
+    
+    @Test
+    public void shouldBeAbleToReserveABook() {
+        Book book2 = new Book("Effective Java");
+        Book book1 = new Book("War and Peace");
+        inventory.add(book1);
+        inventory.add(book2);
+        
+        assertThat(inventory.getReservedBookTitles().length(), is(equalTo(0)));
+        inventory.reserve(book2.getTitle());
+        
+        assertThat(inventory.getReservedBookTitles(), containsString(book2.getTitle()));
+    }
 }

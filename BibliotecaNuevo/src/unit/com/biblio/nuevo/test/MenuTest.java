@@ -32,16 +32,13 @@ public class MenuTest {
     }
 
     @Test
-    public void shouldReceiveErrorMessageWhenInvalidOptionSelected(){
-        assertThat(menu.selectOption(1), is(nullValue()));
-        assertThat(menu.selectOption(-2), is(nullValue()));
+    public void shouldReturnQuitIfMinusOneIsSelected(){
+        assertThat(menu.selectOption(-1), is("quit"));
     }
 
     @Test
-    public void shouldReturnQuitIfMinusOneIsSelected(){
-        assertThat(menu.selectOption(-1), is("quit"));
-
+    public void shouldReturnInvalidIfInvalidOptionIsSelected(){
+        assertThat(menu.selectOption(1), is("invalid"));
+        assertThat(menu.selectOption(-2), is("invalid"));
     }
-
-
 }
